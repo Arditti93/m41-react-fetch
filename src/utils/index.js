@@ -34,3 +34,41 @@ export const readUsers = async () => {
 }
 //TODO: add delete and update fetch requests
 
+export const updateUser = async (username, key, value ) => {
+    try {
+        const response = await fetch("http://localhost:5001/updateUser", {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+               "username" : username,
+               "key": key,
+               "value": value
+            })
+        })
+        const data = await response.json()
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteUser = async (username) => {
+    try {
+        const response = await fetch("http://localhost:5001/deleteUser", {
+            method: "DELETE",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                "username": username
+            })
+        })
+        const data = await response.json()
+        console.log(data)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+
