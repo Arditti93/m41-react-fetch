@@ -1,9 +1,9 @@
 import React from 'react'
-import {useState} from 'react'
+import { useState } from 'react'
 import { updateUser } from '../utils'
 
 const UpdateUser = ({user}) => {
-    console.log(user)
+
     const [username, setUsername] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
