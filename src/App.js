@@ -1,20 +1,17 @@
 import React from "react";
 import {useState, useEffect} from 'react'
-// import Register from "./components/Register";
 import ReadUsers from "./components/ReadUsers";
-import UpdateUser from "./components/UpdateUser";
-import DeleteUser from "./components/DeleteUser";
 import Login from "./components/Login";
 
 import { getCookie } from "./common";
 import {findUser} from "./utils"
 
-
-
 const App = () => {
   const [user, setUser] = useState()
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() =>{
+    fetchImages();
     let cookie = getCookie('jwt_token')
     if (cookie !== false) {
       loginWithToken(cookie)
@@ -24,6 +21,12 @@ const App = () => {
   const loginWithToken = async(cookie)=> {
     const user = await findUser(cookie)
     setUser(user)
+  } 
+
+  const fetchImages = async () => {
+    const response = await fetch (`${process.env.REACT_APP_API}`);
+    const data = await response.json();
+    setPhotos(data);
   }
 
   return (
@@ -34,9 +37,15 @@ const App = () => {
       {user ?
       <div>
         <h2> Hello! welcome {user} you have logged in!</h2>
+        {photos.map((item,index)=>{
+          return (
+            <div>
+              <img alt="random thing" src={item.download_url} width="200"/>
+              <h2>{item.author}</h2>
+            </div>
+          )
+        })}
         <ReadUsers />
-        <UpdateUser user={user} />
-        <DeleteUser user={user} />
       </div>
         : 
         <h2>Please Login</h2>
@@ -47,3 +56,4 @@ const App = () => {
 };
 
 export default App;
+
